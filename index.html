@@ -95,6 +95,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg1);font-family:'Cormora
 @keyframes glow{50%{transform:scale(1.1);opacity:.6}}
 .rp{opacity:.65!important;pointer-events:auto!important}
 #pw{margin-top:8px}
+.wait .hint{opacity:0;animation:none}.bouq:disabled{cursor:default}
 .pt{transform-box:fill-box;transform-origin:50% 100%;animation:po 5s cubic-bezier(.2,.7,.2,1) var(--pd) both,pb 10s ease-in-out calc(var(--pd) + 5s) infinite}
 @keyframes po{from{transform:scale(.04) rotate(-30deg);opacity:0}25%{opacity:1}to{transform:none;opacity:1}}
 @keyframes pb{50%{transform:scale(1.03) rotate(2.5deg)}}
@@ -177,9 +178,10 @@ s+='<path d="M160 352L18 138Q160 52 302 138Z" fill="#E7EAEE" stroke="'+G+'"/><pa
 s+=R(106,132,28,'gB',.6,10)+R(212,134,28,'gW',.8,30)+R(160,150,40,'gW',.3,0)+R(100,200,35,'gB',.5,20)+R(220,198,35,'gB',.7,5)+anem(66,158,22,1)+anem(254,160,21,1.2)+R(128,242,29,'gW',.9,12)+R(194,244,29,'gB',1.1,40);
 s+='<g class="wr"><g transform="translate(160 458) scale(.85) translate(-160 -458)"><path d="M160 458L34 262Q96 232 160 272Z" fill="url(#pp)" stroke="'+G+'"/><path d="M160 458L286 262Q224 232 160 272Z" fill="#F5F6F8" stroke="'+G+'"/><path d="M160 272L160 458M160 300L96 262M160 300L224 262" stroke="'+G+'" fill="none" stroke-width=".8"/><path d="M160 458L92 350Q124 336 160 360Z" fill="#fff" opacity=".6"/></g></g>';
 s+='<path d="M114 372Q160 386 206 372L205 386Q160 400 115 386Z" fill="'+B+'" stroke="'+BD+'" stroke-width=".7"/><g transform="translate(160 384)"><path d="M0 0C-26-20-38 6-6 6Z" fill="'+B+'" stroke="'+BD+'" stroke-width=".7"/><path d="M0 0C26-20 38 6 6 6Z" fill="'+B+'" stroke="'+BD+'" stroke-width=".7"/><g class="tail"><path d="M-3 4C-14 22-22 34-26 52L-14 46-10 56-2 8Z" fill="#a9cde2" stroke="'+BD+'" stroke-width=".7"/></g><g class="tail" style="animation-delay:-1.5s"><path d="M3 4C14 22 22 34 26 52L14 46 10 56 2 8Z" fill="#a9cde2" stroke="'+BD+'" stroke-width=".7"/></g><circle r="6" fill="'+B+'" stroke="'+BD+'" stroke-width=".7"/></g>';
-$('svg').innerHTML=s;
+$('svg').innerHTML=s;lock();
 $('mini').innerHTML='<defs><radialGradient id="mB" cx=".4" cy=".35"><stop offset="0" stop-color="#E4F1F8"/><stop offset="1" stop-color="#9CC6DE"/></radialGradient></defs><path d="M46 56C46 40 46 34 46 26M46 44C32 40 26 30 20 24M46 40C60 36 68 28 74 20" stroke="'+SD+'" fill="none" stroke-width="1.5"/><ellipse cx="22" cy="26" rx="8" ry="4" fill="'+S+'" stroke="'+SD+'" transform="rotate(-40 22 26)"/><ellipse cx="72" cy="22" rx="8" ry="4" fill="'+S+'" stroke="'+SD+'" transform="rotate(40 72 22)"/><g transform="translate(46 18)">'+rose(15,'mB',BD,0)+'</g>'}
 build();
+var LT;function lock(){var b=$('bq'),a=$('app');b.disabled=true;a.classList.add('wait');clearTimeout(LT);LT=setTimeout(function(){b.disabled=false;a.classList.remove('wait')},matchMedia('(prefers-reduced-motion:reduce)').matches?100:11500)}
 function put(){$('t_h').textContent=C.h;$('t_s').textContent=C.s;$('t_i').textContent=C.i;$('t_lh').textContent=C.lh;$('t_c').textContent=C.c;$('t_ps').textContent=C.ps;
 var b=$('body');b.innerHTML='';C.m.split(/\n\s*\n/).forEach(function(x){var p=document.createElement('p');p.textContent=x;b.appendChild(p)});
 var g=document.createElement('p');g.className='sig';g.textContent=C.sig;b.appendChild(g)}
