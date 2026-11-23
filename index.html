@@ -95,6 +95,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg1);font-family:'Cormora
 @keyframes glow{50%{transform:scale(1.1);opacity:.6}}
 .rp{opacity:.65!important;pointer-events:auto!important}
 #pw{margin-top:8px}
+.adm{bottom:calc(14px + env(safe-area-inset-bottom,0px));opacity:.45;font-size:20px;padding:14px 26px}
 .wait .hint{opacity:0;animation:none}.bouq:disabled{cursor:default}
 .pt{transform-box:fill-box;transform-origin:50% 100%;animation:po 5s cubic-bezier(.2,.7,.2,1) var(--pd) both,pb 10s ease-in-out calc(var(--pd) + 5s) infinite}
 @keyframes po{from{transform:scale(.04) rotate(-30deg);opacity:0}25%{opacity:1}to{transform:none;opacity:1}}
@@ -202,7 +203,7 @@ function hex(b){return Array.from(new Uint8Array(b)).map(function(x){return x.to
 function unhex(h){return new Uint8Array(h.match(/../g).map(function(x){return parseInt(x,16)}))}
 async function setPw(p){var s=crypto.getRandomValues(new Uint8Array(16));A={salt:hex(s),hash:hex(await hp(p,s))};await DB.doc('site/auth').set(A)}
 async function openLock(){$('editv').style.display='none';$('lockv').style.display='block';$('pw').value='';$('lk_m').textContent='';$('panel').classList.add('on');
-try{if(!DB)DB=await claude.use('db');var s=await DB.doc('site/auth').get();A=s.exists?s.data():null;$('lk_s').textContent=A?'Enter your password.':'First time: choose a password (4+ characters).';$('go').textContent=A?'Unlock':'Set password'}catch(e){$('lk_s').textContent='Can’t reach the database right now.'}}
+try{if(!CAN){var u=await claude.use('user');CAN=u?await u.canEdit():false}if(!CAN){$('lk_s').textContent='Only the owner can edit. Open this page while signed in to claude.ai as the owner.';$('go').style.display='none';$('pw').style.display='none';return}$('go').style.display='';$('pw').style.display='';if(!DB)DB=await claude.use('db');var s=await DB.doc('site/auth').get();A=s.exists?s.data():null;$('lk_s').textContent=A?'Enter your password.':'First time: choose a password (4+ characters).';$('go').textContent=A?'Unlock':'Set password'}catch(e){$('lk_s').textContent='Can’t reach the database right now.'}}
 $('go').onclick=async function(){var p=$('pw').value,m=$('lk_m');m.textContent='';try{if(!A){if(p.length<4){m.textContent='Use at least 4 characters.';return}await setPw(p)}else{var h=hex(await hp(p,unhex(A.salt)));if(h!==A.hash){m.textContent='Wrong password.';return}}fill();$('lockv').style.display='none';$('editv').style.display='block'}catch(e){m.textContent='Something went wrong. Are you signed in as the owner?'}};
 $('lc').onclick=function(){$('panel').classList.remove('on')};
 function reveal(g,d){document.querySelectorAll('#pp h2,#pp p').forEach(function(e,i){T.push(setTimeout(function(){e.classList.add('show')},RM?0:i*g+d))})}
@@ -231,7 +232,7 @@ var F={h:'e_h',s:'e_s',i:'e_i',lh:'e_lh',m:'e_m',sig:'e_sig',c:'e_c',ps:'e_ps'};
 function fill(){for(var k in F)$(F[k]).value=C[k]}
 function grab(){for(var k in F)C[k]=$(F[k]).value;put()}
 $('adm').onclick=async function(){try{if(!CAN){var u=await claude.use('user');CAN=u?await u.canEdit():false}}catch(e){}
-if(!CAN){var a=$('adm');a.classList.remove('no');void a.offsetWidth;a.classList.add('no');return}
+
 $('msg').textContent='';openLock()};
 $('close').onclick=function(){$('panel').classList.remove('on')};
 $('prev').onclick=function(){grab();$('panel').classList.remove('on');reset();later(run,500)};
